@@ -12,8 +12,16 @@ var crazy_coords = [7, 1]
 var ribbit_coords = [9, 1]
 var bunny_coords = [mad_coords, homeless_coords, crazy_coords, ribbit_coords]
 
-var difficulty = 0
+var mad_alive = true
+var homeless_alive = true
+var crazy_alive = true
+var ribbit_alive = true
+var bunny_alive = [mad_alive, homeless_alive, crazy_alive, ribbit_alive]
 
+var game_over = false
+var difficulty = 2
+
+var glass = []
 var dangers = []
 
 var cols
@@ -23,6 +31,7 @@ func _ready() -> void:
 	setupboard()
 
 func setupboard():
+	print("Setting up the board")
 	match difficulty:
 		0:
 			cols = 2
@@ -46,8 +55,28 @@ func setupboard():
 		for t in cols:
 			column = 3 + (t * 2)
 			row = 3 + (i * 2)
-			print("Placed glass in position ", column, ",", row)
 			glass_layer.set_cell(Vector2i(column, row), 0, Vector2i(0, 0))
+			glass.append([column, row])
 		danger = rng.randi_range(1, cols)
 		dangers.append([1 + (danger * 2), 3 + (i * 2)])
+	print("Glass coordinates: ", glass)
 	print("Dangerous coordinates: ", dangers)
+	gameloop()
+
+func gameloop():
+	print("Moving a player")
+	while game_over == false:
+		for i in 4:
+			print("Player ", i + 1, "\'s turn")
+			#if bunny_alive[i]:
+				#moveplayer(i)
+			#else:
+				#break
+		
+		if !mad_alive and !homeless_alive and !crazy_alive and !ribbit_alive:
+			game_over = true
+		
+		break
+
+#func moveplayer(player):
+	
