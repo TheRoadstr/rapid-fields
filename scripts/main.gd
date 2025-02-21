@@ -27,6 +27,14 @@ var dangers = []
 var cols
 var rows = 20
 
+var click
+
+func _input(event):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var position = event.position
+		click = [round(position[0] / 16), round(position[1] / 16)]
+		print("Mouse Click at: ", click)
+
 func _ready() -> void:
 	setupboard()
 
@@ -64,19 +72,17 @@ func setupboard():
 	gameloop()
 
 func gameloop():
-	print("Moving a player")
+	print("Starting game loop")
 	while game_over == false:
 		for i in 4:
-			print("Player ", i + 1, "\'s turn")
-			#if bunny_alive[i]:
-				#moveplayer(i)
-			#else:
-				#break
+			if bunny_alive[i]:
+				moveplayer(i)
 		
 		if !mad_alive and !homeless_alive and !crazy_alive and !ribbit_alive:
 			game_over = true
 		
 		break
 
-#func moveplayer(player):
+func moveplayer(player):
+	print("Moving player ", player + 1)
 	
