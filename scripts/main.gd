@@ -27,13 +27,21 @@ var dangers = []
 var cols
 var rows = 20
 
-var click
+var click = [0, 0]
+signal clicked
+var clicking = false
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var position = event.position
 		click = [round(position[0] / 16), round(position[1] / 16)]
 		print("Mouse Click at: ", click)
+	
+	if event is InputEventMouseButton and event.pressed:
+		clicking = true
+		clicked.emit()
+	else:
+		clicking = false
 
 func _ready() -> void:
 	setupboard()
@@ -75,13 +83,19 @@ func gameloop():
 	print("Starting game loop")
 	while game_over == false:
 		for i in 4:
-			if bunny_alive[i]:
-				await moveplayer(i)
-		
-		if !mad_alive and !homeless_alive and !crazy_alive and !ribbit_alive:
-			game_over = true
-		
-		break
+			await wait_for_click()
+			print("Moving player ", i + 1)
+			player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
+			clicking = false
+			bunny_coords[i][0] = click[0]
+			bunny_coords[i][1] = click[1]
+			player_layer.set_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]), 0, Vector2i(i, 0))
+		# Prevents an infinite loop
+		game_over = true
+	#if mad_alive or homeless_alive or crazy_alive or ribbit_alive:
+		#game_over = true
 
-func moveplayer(player):
-	print("Moving player ", player + 1)
+func wait_for_click():
+	if clicking:
+		return
+	await clicked
