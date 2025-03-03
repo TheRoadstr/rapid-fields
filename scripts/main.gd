@@ -27,12 +27,15 @@ var dangers = []
 var cols
 var rows = 20
 
+<<<<<<< HEAD
 var click = []
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		click = [floor(event.position[0] / 16), floor(event.position[1] / 16)]
 
+=======
+>>>>>>> parent of 5273251 (detect clicks)
 func _ready() -> void:
 	setupboard()
 
@@ -70,17 +73,26 @@ func setupboard():
 	gameloop()
 
 func gameloop():
-	print("Starting game loop")
+	print("Moving a player")
 	while game_over == false:
 		for i in 4:
+<<<<<<< HEAD
 			if bunny_alive[i]:
 				await moveplayer(i)
+=======
+			print("Player ", i + 1, "\'s turn")
+			#if bunny_alive[i]:
+				#moveplayer(i)
+			#else:
+				#break
+>>>>>>> parent of 5273251 (detect clicks)
 		
 		if !mad_alive and !homeless_alive and !crazy_alive and !ribbit_alive:
 			game_over = true
 		
 		break
 
+<<<<<<< HEAD
 func moveplayer(player):
 	print("Starting to move player")
 	await waitingclick()
@@ -91,6 +103,9 @@ func moveplayer(player):
 			player_layer.erase_cell(Vector2i(bunny_coords[player][0], bunny_coords[player][1]))
 			bunny_coords[player] = click
 			player_layer.set_cell(Vector2i(bunny_coords[player][0], bunny_coords[player][1]), 0, Vector2i(player, 0))
+=======
+#func moveplayer(player):
+>>>>>>> parent of 5273251 (detect clicks)
 	
 func waitingclick():
 	print("Waiting for click")
