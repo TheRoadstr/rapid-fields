@@ -34,7 +34,7 @@ var clicking = false
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var position = event.position
-		click = [round(position[0] / 16), round(position[1] / 16)]
+		click = [floor(position[0] / 16), floor(position[1] / 16)]
 		print("Mouse Click at: ", click)
 	
 	if event is InputEventMouseButton and event.pressed:
@@ -90,6 +90,7 @@ func gameloop():
 			bunny_coords[i][0] = click[0]
 			bunny_coords[i][1] = click[1]
 			player_layer.set_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]), 0, Vector2i(i, 0))
+			print("Moved player to coordinates [", bunny_coords[i][0], ", ", bunny_coords[i][1], "]")
 		# Prevents an infinite loop
 		game_over = true
 	#if mad_alive or homeless_alive or crazy_alive or ribbit_alive:
