@@ -19,7 +19,7 @@ var ribbit_alive = true
 var bunny_alive = [mad_alive, homeless_alive, crazy_alive, ribbit_alive]
 
 var game_over = false
-var difficulty = 2
+var difficulty = 0
 
 var glass = []
 var dangers = []
@@ -89,7 +89,7 @@ func gameloop():
 			if bunny_alive[index]:
 				await wait_for_click()
 				clicking = false
-				if click in glass:
+				if click in glass and click[1] == bunny_coords[index][1] + 2:
 					player_layer.erase_cell(Vector2i(bunny_coords[index][0], bunny_coords[index][1]))
 					bunny_coords[index][0] = click[0]
 					bunny_coords[index][1] = click[1]
