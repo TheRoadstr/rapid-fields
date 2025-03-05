@@ -33,8 +33,8 @@ var clicking = false
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		var position = event.position
-		click = [floor(position[0] / 16), floor(position[1] / 16)]
+		var playerposition = event.position
+		click = [int(floor(playerposition[0] / 16)), int(floor(playerposition[1] / 16))]
 		print("Mouse Click at: ", click)
 	
 	if event is InputEventMouseButton and event.pressed:
@@ -50,13 +50,13 @@ func setupboard():
 	print("Setting up the board")
 	match difficulty:
 		0:
-			cols = 2
+			cols = 4
 			print("Difficulty set to easy")
 		1:
 			cols = 3
 			print("Difficulty set to normal")
 		2:
-			cols = 4
+			cols = 2
 			print("Difficulty set to hard")
 	
 	for i in bunny_coords.size():
@@ -82,17 +82,20 @@ func setupboard():
 func gameloop():
 	print("Starting game loop")
 	while game_over == false:
-		for i in 4:
+		var index = 0
+		while index < 5:
 			await wait_for_click()
-			print("Moving player ", i + 1)
-			player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
 			clicking = false
-			bunny_coords[i][0] = click[0]
-			bunny_coords[i][1] = click[1]
-			player_layer.set_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]), 0, Vector2i(i, 0))
-			print("Moved player to coordinates [", bunny_coords[i][0], ", ", bunny_coords[i][1], "]")
+			if click in glass:
+				player_layer.erase_cell(Vector2i(bunny_coords[index][0], bunny_coords[index][1]))
+				bunny_coords[index][0] = click[0]
+				bunny_coords[index][1] = click[1]
+				player_layer.set_cell(Vector2i(bunny_coords[index][0], bunny_coords[index][1]), 0, Vector2i(index, 0))
+				print("Moved player ", index + 1, " to coordinates [", bunny_coords[index][0], ", ", bunny_coords[index][1], "]")
+				index += 1
 		# Prevents an infinite loop
 		game_over = true
+		
 	#if mad_alive or homeless_alive or crazy_alive or ribbit_alive:
 		#game_over = true
 
