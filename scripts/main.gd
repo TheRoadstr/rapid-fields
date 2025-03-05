@@ -84,20 +84,26 @@ func gameloop():
 	while game_over == false:
 		var index = 0
 		while index < 5:
-			await wait_for_click()
-			clicking = false
-			if click in glass:
-				player_layer.erase_cell(Vector2i(bunny_coords[index][0], bunny_coords[index][1]))
-				bunny_coords[index][0] = click[0]
-				bunny_coords[index][1] = click[1]
-				player_layer.set_cell(Vector2i(bunny_coords[index][0], bunny_coords[index][1]), 0, Vector2i(index, 0))
-				print("Moved player ", index + 1, " to coordinates [", bunny_coords[index][0], ", ", bunny_coords[index][1], "]")
+			if index == 4:
+				index = 0
+			if bunny_alive[index]:
+				await wait_for_click()
+				clicking = false
+				if click in glass:
+					player_layer.erase_cell(Vector2i(bunny_coords[index][0], bunny_coords[index][1]))
+					bunny_coords[index][0] = click[0]
+					bunny_coords[index][1] = click[1]
+					player_layer.set_cell(Vector2i(bunny_coords[index][0], bunny_coords[index][1]), 0, Vector2i(index, 0))
+					print("Moved player ", index + 1, " to coordinates [", bunny_coords[index][0], ", ", bunny_coords[index][1], "]")
+					if bunny_coords[index] in dangers:
+						bunny_alive[index] = false
+						print("Player ", index + 1, " has perished!")
+					index += 1
+			else:
 				index += 1
-		# Prevents an infinite loop
-		game_over = true
 		
-	#if mad_alive or homeless_alive or crazy_alive or ribbit_alive:
-		#game_over = true
+	if mad_alive or homeless_alive or crazy_alive or ribbit_alive:
+		game_over = true
 
 func wait_for_click():
 	if clicking:
