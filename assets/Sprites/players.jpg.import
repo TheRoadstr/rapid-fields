@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bw7s27pf0toq7"
-path="res://.godot/imported/glass.png-9f0ceda4e4c390a16be2b356179ad5e1.ctex"
+uid="uid://ct007rp4tuow4"
+path="res://.godot/imported/players.jpg-a3b1106950de48dbcbde7ee65e6e7457.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/glass.png"
-dest_files=["res://.godot/imported/glass.png-9f0ceda4e4c390a16be2b356179ad5e1.ctex"]
+source_file="res://assets/Sprites/players.jpg"
+dest_files=["res://.godot/imported/players.jpg-a3b1106950de48dbcbde7ee65e6e7457.ctex"]
 
 [params]
 

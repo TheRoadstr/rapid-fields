@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://c1w4mx7u786u2"]
 
 [ext_resource type="Script" uid="uid://0c57po4ydp4a" path="res://scripts/main.gd" id="1_gtk27"]
-[ext_resource type="Texture2D" uid="uid://ct007rp4tuow4" path="res://assets/players.jpg" id="2_7ro6n"]
-[ext_resource type="Texture2D" uid="uid://bw7s27pf0toq7" path="res://assets/glass.png" id="3_k2nef"]
+[ext_resource type="Texture2D" uid="uid://ct007rp4tuow4" path="res://assets/Sprites/players.jpg" id="2_7ro6n"]
+[ext_resource type="Texture2D" uid="uid://bw7s27pf0toq7" path="res://assets/Sprites/glass.png" id="3_k2nef"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2p4jm"]
 texture = ExtResource("3_k2nef")
@@ -30,3 +30,10 @@ tile_set = SubResource("TileSet_s36he")
 
 [node name="PlayerLayer" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_30uft")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 309.0
+offset_top = 34.0
+offset_right = 349.0
+offset_bottom = 57.0
+text = "hello world"

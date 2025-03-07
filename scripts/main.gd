@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var glass_layer: TileMapLayer = $GlassLayer
 @onready var player_layer: TileMapLayer = $PlayerLayer
-
+@onready var label: Label = $Label
 
 var rng = RandomNumberGenerator.new()
 
@@ -19,7 +19,7 @@ var ribbit_alive = true
 var bunny_alive = [mad_alive, homeless_alive, crazy_alive, ribbit_alive]
 
 var game_over = false
-var difficulty = 0
+var difficulty = 2
 
 var glass = []
 var dangers = []
@@ -87,6 +87,11 @@ func gameloop():
 			if index == 4:
 				index = 0
 			if bunny_alive[index]:
+				match index:
+					0: label.text = "First's turn"
+					1: label.text = "Second's turn"
+					2: label.text = "Third's turn"
+					3: label.text = "Fourth's turn"
 				await wait_for_click()
 				clicking = false
 				if click in glass and click[1] == bunny_coords[index][1] + 2:
@@ -102,8 +107,8 @@ func gameloop():
 			else:
 				index += 1
 		
-	if mad_alive or homeless_alive or crazy_alive or ribbit_alive:
-		game_over = true
+		if !mad_alive and !homeless_alive and !crazy_alive and !ribbit_alive:
+			game_over = true
 
 func wait_for_click():
 	if clicking:
