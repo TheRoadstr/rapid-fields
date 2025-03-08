@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c1w4mx7u786u2"]
+[gd_scene load_steps=10 format=3 uid="uid://c1w4mx7u786u2"]
 
 [ext_resource type="Script" uid="uid://0c57po4ydp4a" path="res://scripts/main.gd" id="1_gtk27"]
 [ext_resource type="Texture2D" uid="uid://ct007rp4tuow4" path="res://assets/Sprites/players.jpg" id="2_7ro6n"]
+[ext_resource type="PackedScene" uid="uid://c7u8hryloq7hy" path="res://addons/card-framework/card_manager.tscn" id="2_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://bw7s27pf0toq7" path="res://assets/Sprites/glass.png" id="3_k2nef"]
+[ext_resource type="Script" uid="uid://drxn3v800anj1" path="res://addons/card-framework/hand.gd" id="3_tbgi4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2p4jm"]
 texture = ExtResource("3_k2nef")
@@ -23,6 +25,41 @@ sources/0 = SubResource("TileSetAtlasSource_sum1u")
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_gtk27")
+
+[node name="CardManager" parent="." instance=ExtResource("2_jyhfs")]
+
+[node name="Hand1" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_tbgi4")
+metadata/_custom_type_script = "uid://drxn3v800anj1"
+
+[node name="Hand2" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_left = 1058.0
+offset_right = 1098.0
+offset_bottom = 40.0
+script = ExtResource("3_tbgi4")
+metadata/_custom_type_script = "uid://drxn3v800anj1"
+
+[node name="Hand3" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_left = 948.0
+offset_top = 299.0
+offset_right = 988.0
+offset_bottom = 339.0
+script = ExtResource("3_tbgi4")
+metadata/_custom_type_script = "uid://drxn3v800anj1"
+
+[node name="Hand4" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_left = 411.0
+offset_top = 390.0
+offset_right = 451.0
+offset_bottom = 430.0
+script = ExtResource("3_tbgi4")
+metadata/_custom_type_script = "uid://drxn3v800anj1"
 
 [node name="GlassLayer" type="TileMapLayer" parent="."]
 z_index = 1

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8v8ionwckigf"
-path="res://.godot/imported/Steal.jpg-066d4c978ffc33f28049086e9e3e8736.ctex"
+uid="uid://djd5gvey8n2iu"
+path="res://.godot/imported/skip.jpg-5fb99d17242f616017c1736750c3d74e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Sprites/Cards/Steal.jpg"
-dest_files=["res://.godot/imported/Steal.jpg-066d4c978ffc33f28049086e9e3e8736.ctex"]
+source_file="res://addons/card-framework/card_asset_dir/skip.jpg"
+dest_files=["res://.godot/imported/skip.jpg-5fb99d17242f616017c1736750c3d74e.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b13focow7p2ip"
-path="res://.godot/imported/Control.jpg-31c820b59e1af467eaa9850f45123317.ctex"
+uid="uid://b5wa7ok5cxnlj"
+path="res://.godot/imported/back.jpg-fd408018488509e6bee3633194a1cb1e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Sprites/Cards/Control.jpg"
-dest_files=["res://.godot/imported/Control.jpg-31c820b59e1af467eaa9850f45123317.ctex"]
+source_file="res://addons/card-framework/card_asset_dir/back.jpg"
+dest_files=["res://.godot/imported/back.jpg-fd408018488509e6bee3633194a1cb1e.ctex"]
 
 [params]
 

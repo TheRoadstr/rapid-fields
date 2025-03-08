@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://blxecutlunjjv"
-path="res://.godot/imported/Swap.jpg-8e5592f2016b5323b084e5a0b40cd637.ctex"
+path="res://.godot/imported/swap.jpg-6eaa0ce1fb3c1a448b13cd5b26220e0c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Sprites/Cards/Swap.jpg"
-dest_files=["res://.godot/imported/Swap.jpg-8e5592f2016b5323b084e5a0b40cd637.ctex"]
+source_file="res://addons/card-framework/card_asset_dir/swap.jpg"
+dest_files=["res://.godot/imported/swap.jpg-6eaa0ce1fb3c1a448b13cd5b26220e0c.ctex"]
 
 [params]
 

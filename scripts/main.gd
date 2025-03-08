@@ -4,6 +4,15 @@ extends Node2D
 @onready var player_layer: TileMapLayer = $PlayerLayer
 @onready var label: Label = $Label
 
+@onready var card_manager: CardManager = $CardManager
+@onready var hand_1: Hand = $CardManager/Hand1
+@onready var hand_2: Hand = $CardManager/Hand2
+@onready var hand_3: Hand = $CardManager/Hand3
+@onready var hand_4: Hand = $CardManager/Hand4
+@onready var card_factory: CardFactory = $CardManager/CardFactory
+
+var hands = [hand_1, hand_2, hand_3, hand_4]
+
 var rng = RandomNumberGenerator.new()
 
 var mad_coords = [3, 1]
@@ -17,6 +26,8 @@ var homeless_alive = true
 var crazy_alive = true
 var ribbit_alive = true
 var bunny_alive = [mad_alive, homeless_alive, crazy_alive, ribbit_alive]
+
+var cards = {"skip" : 350, "sontrol" : 300, "swap" : 200, "steal" : 150}
 
 var game_over = false
 var difficulty = 2
@@ -44,6 +55,7 @@ func _input(event):
 		clicking = false
 
 func _ready() -> void:
+	rng.randomize()
 	setupboard()
 
 func setupboard():
@@ -77,6 +89,11 @@ func setupboard():
 		dangers.append([1 + (danger * 2), 3 + (i * 2)])
 	print("Glass coordinates: ", glass)
 	print("Dangerous coordinates: ", dangers)
+	
+	for i in hands.size():
+		for n in 3:
+			card_factory.create_card(card_rarity(), hands[i])
+	
 	gameloop()
 
 func gameloop():
@@ -114,3 +131,16 @@ func wait_for_click():
 	if clicking:
 		return
 	await clicked
+
+func card_rarity():
+	var weighted_sum = 0
+	
+	for i in cards:
+		weighted_sum += cards[i]
+	
+	var item = rng.randi_range(0, weighted_sum)
+	
+	for i in cards:
+		if item <= cards[i]:
+			return i
+		item -= cards[i]
