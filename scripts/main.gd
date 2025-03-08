@@ -4,14 +4,10 @@ extends Node2D
 @onready var player_layer: TileMapLayer = $PlayerLayer
 @onready var label: Label = $Label
 
-@onready var card_manager: CardManager = $CardManager
-@onready var hand_1: Hand = $CardManager/Hand1
-@onready var hand_2: Hand = $CardManager/Hand2
-@onready var hand_3: Hand = $CardManager/Hand3
-@onready var hand_4: Hand = $CardManager/Hand4
-@onready var card_factory: CardFactory = $CardManager/CardFactory
+@onready var card_manager: CardManager = $Camera2D/AspectRatioContainer/CardManager
+@onready var card_factory: CardFactory = $Camera2D/AspectRatioContainer/CardManager/CardFactory
 
-var hands = [hand_1, hand_2, hand_3, hand_4]
+@onready var hands = [$Camera2D/AspectRatioContainer/CardManager/Hand1, $Camera2D/AspectRatioContainer/CardManager/Hand2, $Camera2D/AspectRatioContainer/CardManager/Hand3, $Camera2D/AspectRatioContainer/CardManager/Hand4]
 
 var rng = RandomNumberGenerator.new()
 
@@ -27,7 +23,7 @@ var crazy_alive = true
 var ribbit_alive = true
 var bunny_alive = [mad_alive, homeless_alive, crazy_alive, ribbit_alive]
 
-var cards = {"skip" : 350, "sontrol" : 300, "swap" : 200, "steal" : 150}
+var cards = {"skip" : 350, "control" : 300, "swap" : 200, "steal" : 150}
 
 var game_over = false
 var difficulty = 2
@@ -93,6 +89,7 @@ func setupboard():
 	for i in hands.size():
 		for n in 3:
 			card_factory.create_card(card_rarity(), hands[i])
+		hands[i].visible = false
 	
 	gameloop()
 
@@ -105,10 +102,19 @@ func gameloop():
 				index = 0
 			if bunny_alive[index]:
 				match index:
-					0: label.text = "First's turn"
-					1: label.text = "Second's turn"
-					2: label.text = "Third's turn"
-					3: label.text = "Fourth's turn"
+					0:
+						label.text = "First's turn"
+						hands[0].visible = true
+					1:
+						label.text = "Second's turn"
+						hands[1].visible = true
+					2:
+						label.text = "Third's turn"
+						hands[2].visible = true
+					3:
+						label.text = "Fourth's turn"
+						hands[3].visible = true
+				
 				await wait_for_click()
 				clicking = false
 				if click in glass and click[1] == bunny_coords[index][1] + 2:
@@ -123,6 +129,8 @@ func gameloop():
 					index += 1
 			else:
 				index += 1
+			
+			hands[index].visible = false
 		
 		if !mad_alive and !homeless_alive and !crazy_alive and !ribbit_alive:
 			game_over = true
