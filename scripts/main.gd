@@ -4,10 +4,10 @@ extends Node2D
 @onready var player_layer: TileMapLayer = $PlayerLayer
 @onready var label: Label = $Label
 
-@onready var card_manager: CardManager = $Camera2D/AspectRatioContainer/CardManager
-@onready var card_factory: CardFactory = $Camera2D/AspectRatioContainer/CardManager/CardFactory
+@onready var card_manager: CardManager = $CardManager
+@onready var card_factory: CardFactory = $CardManager/CardFactory
 
-@onready var hands = [$Camera2D/AspectRatioContainer/CardManager/Hand1, $Camera2D/AspectRatioContainer/CardManager/Hand2, $Camera2D/AspectRatioContainer/CardManager/Hand3, $Camera2D/AspectRatioContainer/CardManager/Hand4]
+@onready var hands = [$CardManager/Hand1, $CardManager/Hand2, $CardManager/Hand3, $CardManager/Hand4]
 
 var rng = RandomNumberGenerator.new()
 
@@ -40,7 +40,7 @@ var clicking = false
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		var playerposition = event.position
+		var playerposition = get_global_mouse_position()
 		click = [int(floor(playerposition[0] / 16)), int(floor(playerposition[1] / 16))]
 		print("Mouse Click at: ", click)
 	
@@ -97,11 +97,9 @@ func gameloop():
 	print("Starting game loop")
 	while game_over == false:
 		var index = 0
-		while index < 5:
-			if index == 4:
-				index = 0
-			if bunny_alive[index]:
-				match index:
+		for i in range(4):
+			if bunny_alive[i]:
+				match i:
 					0:
 						label.text = "First's turn"
 						hands[0].visible = true
@@ -117,20 +115,25 @@ func gameloop():
 				
 				await wait_for_click()
 				clicking = false
-				if click in glass and click[1] == bunny_coords[index][1] + 2:
-					player_layer.erase_cell(Vector2i(bunny_coords[index][0], bunny_coords[index][1]))
-					bunny_coords[index][0] = click[0]
-					bunny_coords[index][1] = click[1]
-					player_layer.set_cell(Vector2i(bunny_coords[index][0], bunny_coords[index][1]), 0, Vector2i(index, 0))
-					print("Moved player ", index + 1, " to coordinates [", bunny_coords[index][0], ", ", bunny_coords[index][1], "]")
-					if bunny_coords[index] in dangers:
-						bunny_alive[index] = false
-						print("Player ", index + 1, " has perished!")
-					index += 1
-			else:
-				index += 1
+				if click in glass and click[1] == bunny_coords[i][1] + 2:
+					player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
+					bunny_coords[i][0] = click[0]
+					bunny_coords[i][1] = click[1]
+					player_layer.set_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]), 0, Vector2i(i, 0))
+					print("Moved player ", i + 1, " to coordinates [", bunny_coords[i][0], ", ", bunny_coords[i][1], "]")
+					
+					if bunny_coords[i] in dangers:
+						bunny_alive[i] = false
+						player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
+						bunny_coords[i] = [-255, -255]
+						print("Player ", i + 1, " has perished!")
+					
+					for t in range(4):
+						if t != i:
+							player_layer.set_cell(Vector2i(bunny_coords[t][0], bunny_coords[t][1]), 0, Vector2i(t, 0))
 			
-			hands[index].visible = false
+			if i < 4:
+				hands[i].visible = false
 		
 		if !mad_alive and !homeless_alive and !crazy_alive and !ribbit_alive:
 			game_over = true

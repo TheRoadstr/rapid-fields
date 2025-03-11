@@ -50,59 +50,61 @@ offset_right = 349.0
 offset_bottom = 57.0
 text = "hello world"
 
+[node name="CardManager" parent="." instance=ExtResource("2_jyhfs")]
+offset_left = 254.0
+offset_top = 503.0
+offset_right = 254.0
+offset_bottom = 503.0
+
+[node name="Hand1" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_left = -249.0
+offset_top = -322.0
+offset_right = -249.0
+offset_bottom = -322.0
+script = ExtResource("3_tbgi4")
+max_hand_spread = 150
+hand_rotation_curve = SubResource("Curve_tbgi4")
+hand_vertical_curve = SubResource("Curve_tefeu")
+enable_drop_zone = false
+metadata/_custom_type_script = "uid://drxn3v800anj1"
+
+[node name="Hand2" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_left = -249.0
+offset_top = -322.0
+offset_right = -249.0
+offset_bottom = -322.0
+script = ExtResource("3_tbgi4")
+max_hand_spread = 150
+hand_rotation_curve = SubResource("Curve_tbgi4")
+hand_vertical_curve = SubResource("Curve_tefeu")
+enable_drop_zone = false
+metadata/_custom_type_script = "uid://drxn3v800anj1"
+
+[node name="Hand3" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_left = -249.0
+offset_top = -322.0
+offset_right = -249.0
+offset_bottom = -322.0
+script = ExtResource("3_tbgi4")
+max_hand_spread = 150
+hand_rotation_curve = SubResource("Curve_tbgi4")
+hand_vertical_curve = SubResource("Curve_tefeu")
+enable_drop_zone = false
+metadata/_custom_type_script = "uid://drxn3v800anj1"
+
+[node name="Hand4" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_left = -249.0
+offset_top = -322.0
+offset_right = -249.0
+offset_bottom = -322.0
+script = ExtResource("3_tbgi4")
+max_hand_spread = 150
+hand_rotation_curve = SubResource("Curve_tbgi4")
+hand_vertical_curve = SubResource("Curve_tefeu")
+metadata/_custom_type_script = "uid://drxn3v800anj1"
+
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(274, 428)
-zoom = Vector2(3, 3)
-
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Camera2D"]
-offset_left = -20.0
-offset_top = 75.0
-offset_right = -20.0
-offset_bottom = 75.0
-scale = Vector2(2.5, 2.5)
-
-[node name="CardManager" parent="Camera2D/AspectRatioContainer" instance=ExtResource("2_jyhfs")]
-layout_mode = 2
-
-[node name="Hand1" type="Control" parent="Camera2D/AspectRatioContainer/CardManager"]
-anchors_preset = 0
-offset_top = 5.0
-offset_bottom = 5.0
-script = ExtResource("3_tbgi4")
-max_hand_spread = 150
-hand_rotation_curve = SubResource("Curve_tbgi4")
-hand_vertical_curve = SubResource("Curve_tefeu")
-enable_drop_zone = false
-metadata/_custom_type_script = "uid://drxn3v800anj1"
-
-[node name="Hand2" type="Control" parent="Camera2D/AspectRatioContainer/CardManager"]
-anchors_preset = 0
-offset_top = 5.0
-offset_bottom = 5.0
-script = ExtResource("3_tbgi4")
-max_hand_spread = 150
-hand_rotation_curve = SubResource("Curve_tbgi4")
-hand_vertical_curve = SubResource("Curve_tefeu")
-enable_drop_zone = false
-metadata/_custom_type_script = "uid://drxn3v800anj1"
-
-[node name="Hand3" type="Control" parent="Camera2D/AspectRatioContainer/CardManager"]
-anchors_preset = 0
-offset_top = 5.0
-offset_bottom = 5.0
-script = ExtResource("3_tbgi4")
-max_hand_spread = 150
-hand_rotation_curve = SubResource("Curve_tbgi4")
-hand_vertical_curve = SubResource("Curve_tefeu")
-enable_drop_zone = false
-metadata/_custom_type_script = "uid://drxn3v800anj1"
-
-[node name="Hand4" type="Control" parent="Camera2D/AspectRatioContainer/CardManager"]
-anchors_preset = 0
-offset_top = 5.0
-offset_bottom = 5.0
-script = ExtResource("3_tbgi4")
-max_hand_spread = 150
-hand_rotation_curve = SubResource("Curve_tbgi4")
-hand_vertical_curve = SubResource("Curve_tefeu")
-metadata/_custom_type_script = "uid://drxn3v800anj1"
