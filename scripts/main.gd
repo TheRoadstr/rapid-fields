@@ -2,7 +2,8 @@ extends Node2D
 
 @onready var glass_layer: TileMapLayer = $GlassLayer
 @onready var player_layer: TileMapLayer = $PlayerLayer
-@onready var label: Label = $Label
+@onready var label: Label = $Camera2D/Label
+@onready var camera: Camera2D = $Camera2D
 
 @onready var card_manager: CardManager = $CardManager
 @onready var card_factory: CardFactory = $CardManager/CardFactory
@@ -77,12 +78,20 @@ func setupboard():
 	
 	for i in rows:
 		for t in cols:
-			column = 3 + (t * 2)
+			match cols:
+				2: column = 5 + (t * 2)
+				3: column = 4 + (t * 2)
+				4: column = 3 + (t * 2)
 			row = 3 + (i * 2)
 			glass_layer.set_cell(Vector2i(column, row), 0, Vector2i(0, 0))
 			glass.append([column, row])
+		
 		danger = rng.randi_range(1, cols)
-		dangers.append([1 + (danger * 2), 3 + (i * 2)])
+		match cols:
+			2: dangers.append([3 + (danger * 2), 3 + (i * 2)])
+			3: dangers.append([2 + (danger * 2), 3 + (i * 2)])
+			4: dangers.append([1 + (danger * 2), 3 + (i * 2)])
+	
 	print("Glass coordinates: ", glass)
 	print("Dangerous coordinates: ", dangers)
 	
@@ -90,6 +99,8 @@ func setupboard():
 		for n in 3:
 			card_factory.create_card(card_rarity(), hands[i])
 		hands[i].visible = false
+	
+	camera.position = Vector2(104, 24)
 	
 	gameloop()
 
@@ -99,6 +110,7 @@ func gameloop():
 		var index = 0
 		for i in range(4):
 			if bunny_alive[i]:
+				camera.position = Vector2(104, bunny_coords[i][1] * 16 + 8)
 				match i:
 					0:
 						label.text = "First's turn"
@@ -125,6 +137,7 @@ func gameloop():
 					if bunny_coords[i] in dangers:
 						bunny_alive[i] = false
 						player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
+						glass_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
 						bunny_coords[i] = [-255, -255]
 						print("Player ", i + 1, " has perished!")
 					
@@ -137,6 +150,8 @@ func gameloop():
 		
 		if !mad_alive and !homeless_alive and !crazy_alive and !ribbit_alive:
 			game_over = true
+	
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func wait_for_click():
 	if clicking:

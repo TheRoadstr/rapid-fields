@@ -43,14 +43,8 @@ tile_set = SubResource("TileSet_s36he")
 [node name="PlayerLayer" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_30uft")
 
-[node name="Label" type="Label" parent="."]
-offset_left = 309.0
-offset_top = 34.0
-offset_right = 349.0
-offset_bottom = 57.0
-text = "hello world"
-
 [node name="CardManager" parent="." instance=ExtResource("2_jyhfs")]
+visible = false
 offset_left = 254.0
 offset_top = 503.0
 offset_right = 254.0
@@ -108,3 +102,14 @@ hand_vertical_curve = SubResource("Curve_tefeu")
 metadata/_custom_type_script = "uid://drxn3v800anj1"
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+position_smoothing_enabled = true
+
+[node name="Label" type="Label" parent="Camera2D"]
+offset_left = -38.0
+offset_top = -93.0
+offset_right = 49.0
+offset_bottom = -70.0
+text = "hello world"
+horizontal_alignment = 1
+vertical_alignment = 1
