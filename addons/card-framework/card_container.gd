@@ -27,6 +27,8 @@ var _holding_cards := []
 var cards_node: Control
 var card_manager: CardManager
 
+signal cardpressed(card: Card)
+
 
 func _init():
 	unique_id = next_id
@@ -148,7 +150,7 @@ func on_card_move_done(_card: Card):
 
 
 func on_card_pressed(_card: Card):
-	pass
+	cardpressed.emit(_card)
 
 
 func _assign_card_to_container(card: Card) -> void:

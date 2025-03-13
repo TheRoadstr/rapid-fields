@@ -150,12 +150,13 @@ func end_hovering(restore_card_position: bool) -> void:
 
 
 func set_holding() -> void:
-	is_holding = true
-	current_holding_mouse_position = get_local_mouse_position()
-	z_index = stored_z_index + Z_INDEX_OFFSET_WHEN_HOLDING
-	rotation = 0
-	if card_container:
-		card_container.hold_card(self)
+	# is_holding = true
+	# current_holding_mouse_position = get_local_mouse_position()
+	# z_index = stored_z_index + Z_INDEX_OFFSET_WHEN_HOLDING
+	# rotation = 0
+	# if card_container:
+		# card_container.hold_card(self)
+	pass
 
 
 func set_releasing() -> void:

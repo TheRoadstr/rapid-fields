@@ -18,16 +18,12 @@ var crazy_coords = [7, 1]
 var ribbit_coords = [9, 1]
 var bunny_coords = [mad_coords, homeless_coords, crazy_coords, ribbit_coords]
 
-var mad_alive = true
-var homeless_alive = true
-var crazy_alive = true
-var ribbit_alive = true
-var bunny_alive = [mad_alive, homeless_alive, crazy_alive, ribbit_alive]
+var bunny_alive = [true, true, true, true]
 
 var cards = {"skip" : 350, "control" : 300, "swap" : 200, "steal" : 150}
 
 var game_over = false
-var difficulty = 2
+var difficulty = 0
 
 var glass = []
 var dangers = []
@@ -98,7 +94,7 @@ func setupboard():
 	for i in hands.size():
 		for n in 3:
 			card_factory.create_card(card_rarity(), hands[i])
-		hands[i].visible = false
+		hands[i].position = Vector2(9999, 9999)
 	
 	camera.position = Vector2(104, 24)
 	
@@ -107,50 +103,59 @@ func setupboard():
 func gameloop():
 	print("Starting game loop")
 	while game_over == false:
-		var index = 0
 		for i in range(4):
 			if bunny_alive[i]:
 				camera.position = Vector2(104, bunny_coords[i][1] * 16 + 8)
 				match i:
 					0:
 						label.text = "First's turn"
-						hands[0].visible = true
+						hands[0].position = Vector2(0, 0)
 					1:
 						label.text = "Second's turn"
-						hands[1].visible = true
+						hands[1].position = Vector2(0, 0)
 					2:
 						label.text = "Third's turn"
-						hands[2].visible = true
+						hands[2].position = Vector2(0, 0)
 					3:
 						label.text = "Fourth's turn"
-						hands[3].visible = true
+						hands[3].position = Vector2(0, 0)
 				
-				await wait_for_click()
-				clicking = false
-				if click in glass and click[1] == bunny_coords[i][1] + 2:
+				while true:
+					await wait_for_click()
+					clicking = false
+					if click in glass and click[1] == bunny_coords[i][1] + 2:
+						break
+					print("Invalid move, try again")
+				
+				player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
+				bunny_coords[i][0] = click[0]
+				bunny_coords[i][1] = click[1]
+				player_layer.set_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]), 0, Vector2i(i, 0))
+				print("Moved player ", i + 1, " to coordinates [", bunny_coords[i][0], ", ", bunny_coords[i][1], "]")
+				
+				if bunny_coords[i] in dangers:
+					print(bunny_alive[i])
+					bunny_alive[i] = false
+					print(bunny_alive[i])
 					player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
-					bunny_coords[i][0] = click[0]
-					bunny_coords[i][1] = click[1]
-					player_layer.set_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]), 0, Vector2i(i, 0))
-					print("Moved player ", i + 1, " to coordinates [", bunny_coords[i][0], ", ", bunny_coords[i][1], "]")
-					
-					if bunny_coords[i] in dangers:
-						bunny_alive[i] = false
-						player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
-						glass_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
-						bunny_coords[i] = [-255, -255]
-						print("Player ", i + 1, " has perished!")
-					
-					for t in range(4):
-						if t != i:
-							player_layer.set_cell(Vector2i(bunny_coords[t][0], bunny_coords[t][1]), 0, Vector2i(t, 0))
+					glass_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
+					bunny_coords[i] = [-255, -255]
+					print("Player ", i + 1, " has perished!")
+				
+				for t in range(4):
+					if t != i:
+						player_layer.set_cell(Vector2i(bunny_coords[t][0], bunny_coords[t][1]), 0, Vector2i(t, 0))
 			
 			if i < 4:
-				hands[i].visible = false
+				hands[i].position = Vector2(9999, 9999)
 		
-		if !mad_alive and !homeless_alive and !crazy_alive and !ribbit_alive:
+		print(bunny_alive[0], bunny_alive[1], bunny_alive[2], bunny_alive[3])
+		
+		if !bunny_alive[0] and !bunny_alive[1] and !bunny_alive[2] and !bunny_alive[3]:
 			game_over = true
+			print("Game has ended")
 	
+	print("Going to main menu")
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func wait_for_click():
@@ -170,3 +175,16 @@ func card_rarity():
 		if item <= cards[i]:
 			return i
 		item -= cards[i]
+
+
+func _on_hand1_cardpressed(card: Card) -> void:
+	print("Clicked on ", card.card_name, " card on hand 1.")
+
+func _on_hand2_cardpressed(card: Card) -> void:
+	print("Clicked on ", card.card_name, " card on hand 2.")
+
+func _on_hand3_cardpressed(card: Card) -> void:
+	print("Clicked on ", card.card_name, " card on hand 3.")
+
+func _on_hand4_cardpressed(card: Card) -> void:
+	print("Clicked on ", card.card_name, " card on hand 4.")

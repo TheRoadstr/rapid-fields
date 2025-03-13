@@ -30,7 +30,7 @@ point_count = 2
 
 [sub_resource type="Curve" id="Curve_tefeu"]
 _limits = [0.0, 50.0, 0.0, 1.0]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 40), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 5), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [node name="Main" type="Node2D"]
@@ -44,61 +44,58 @@ tile_set = SubResource("TileSet_s36he")
 tile_set = SubResource("TileSet_30uft")
 
 [node name="CardManager" parent="." instance=ExtResource("2_jyhfs")]
-visible = false
-offset_left = 254.0
-offset_top = 503.0
-offset_right = 254.0
-offset_bottom = 503.0
+offset_top = 40.0
+offset_bottom = 40.0
 
 [node name="Hand1" type="Control" parent="CardManager"]
 anchors_preset = 0
-offset_left = -249.0
-offset_top = -322.0
-offset_right = -249.0
-offset_bottom = -322.0
 script = ExtResource("3_tbgi4")
-max_hand_spread = 150
+max_hand_spread = 75
 hand_rotation_curve = SubResource("Curve_tbgi4")
 hand_vertical_curve = SubResource("Curve_tefeu")
 enable_drop_zone = false
 metadata/_custom_type_script = "uid://drxn3v800anj1"
 
 [node name="Hand2" type="Control" parent="CardManager"]
+layout_mode = 3
 anchors_preset = 0
-offset_left = -249.0
-offset_top = -322.0
-offset_right = -249.0
-offset_bottom = -322.0
+offset_left = 9999.0
+offset_top = 9999.0
+offset_right = 9999.0
+offset_bottom = 9999.0
 script = ExtResource("3_tbgi4")
-max_hand_spread = 150
+max_hand_spread = 75
 hand_rotation_curve = SubResource("Curve_tbgi4")
 hand_vertical_curve = SubResource("Curve_tefeu")
 enable_drop_zone = false
 metadata/_custom_type_script = "uid://drxn3v800anj1"
 
 [node name="Hand3" type="Control" parent="CardManager"]
+layout_mode = 3
 anchors_preset = 0
-offset_left = -249.0
-offset_top = -322.0
-offset_right = -249.0
-offset_bottom = -322.0
+offset_left = 9999.0
+offset_top = 9999.0
+offset_right = 9999.0
+offset_bottom = 9999.0
 script = ExtResource("3_tbgi4")
-max_hand_spread = 150
+max_hand_spread = 75
 hand_rotation_curve = SubResource("Curve_tbgi4")
 hand_vertical_curve = SubResource("Curve_tefeu")
 enable_drop_zone = false
 metadata/_custom_type_script = "uid://drxn3v800anj1"
 
 [node name="Hand4" type="Control" parent="CardManager"]
+layout_mode = 3
 anchors_preset = 0
-offset_left = -249.0
-offset_top = -322.0
-offset_right = -249.0
-offset_bottom = -322.0
+offset_left = 9999.0
+offset_top = 9999.0
+offset_right = 9999.0
+offset_bottom = 9999.0
 script = ExtResource("3_tbgi4")
-max_hand_spread = 150
+max_hand_spread = 75
 hand_rotation_curve = SubResource("Curve_tbgi4")
 hand_vertical_curve = SubResource("Curve_tefeu")
+enable_drop_zone = false
 metadata/_custom_type_script = "uid://drxn3v800anj1"
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -113,3 +110,8 @@ offset_bottom = -70.0
 text = "hello world"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="cardpressed" from="CardManager/Hand1" to="." method="_on_hand1_cardpressed"]
+[connection signal="cardpressed" from="CardManager/Hand2" to="." method="_on_hand2_cardpressed"]
+[connection signal="cardpressed" from="CardManager/Hand3" to="." method="_on_hand3_cardpressed"]
+[connection signal="cardpressed" from="CardManager/Hand4" to="." method="_on_hand4_cardpressed"]

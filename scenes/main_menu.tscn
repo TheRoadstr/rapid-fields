@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://fqk3ds44y6oy"]
+[gd_scene load_steps=3 format=3 uid="uid://fqk3ds44y6oy"]
 
 [ext_resource type="Script" uid="uid://c20my820wl43d" path="res://scripts/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="Texture2D" uid="uid://bcvwdcp6morhf" path="res://assets/Sprites/logo.png" id="2_ekxnf"]
 
 [node name="main_menu" type="Control"]
 layout_mode = 3
@@ -11,37 +12,49 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l6cm7")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 648.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+offset_left = 425.0
+offset_top = 84.0
+offset_right = 727.0
+offset_bottom = 524.0
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_ekxnf")
+expand_mode = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/TextureRect"]
 process_mode = 3
 layout_mode = 2
+offset_top = 162.0
+offset_right = 302.0
+offset_bottom = 207.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "[shake rate=7.0 level=2
- connected=0][wave amp=20.0 freq=4.0 connected=0]Project Rapid Fields[/wave][/shake]"
+ connected=0][wave amp=20.0 freq=4.0 connected=0]Project 
+Rapid Fields[/wave][/shake]"
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Play" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Play" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Play"
 
-[node name="Quit" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Quit"
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
