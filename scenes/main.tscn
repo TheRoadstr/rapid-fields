@@ -36,6 +36,41 @@ point_count = 3
 [node name="Main" type="Node2D"]
 script = ExtResource("1_gtk27")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+position_smoothing_enabled = true
+
+[node name="Label" type="Label" parent="Camera2D"]
+offset_left = -38.0
+offset_top = -93.0
+offset_right = 49.0
+offset_bottom = -70.0
+text = "hello world"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="Control" parent="Camera2D"]
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_top = 66.0
+offset_right = 40.0
+offset_bottom = 106.0
+
+[node name="CardButton" type="Button" parent="Camera2D/Buttons"]
+layout_mode = 0
+offset_left = 18.0
+offset_right = 63.0
+offset_bottom = 31.0
+text = "Card"
+
+[node name="MoveButton" type="Button" parent="Camera2D/Buttons"]
+layout_mode = 0
+offset_left = -74.0
+offset_right = -23.0
+offset_bottom = 31.0
+text = "Move"
+
 [node name="GlassLayer" type="TileMapLayer" parent="."]
 z_index = 1
 tile_set = SubResource("TileSet_s36he")
@@ -98,19 +133,8 @@ hand_vertical_curve = SubResource("Curve_tefeu")
 enable_drop_zone = false
 metadata/_custom_type_script = "uid://drxn3v800anj1"
 
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
-position_smoothing_enabled = true
-
-[node name="Label" type="Label" parent="Camera2D"]
-offset_left = -38.0
-offset_top = -93.0
-offset_right = 49.0
-offset_bottom = -70.0
-text = "hello world"
-horizontal_alignment = 1
-vertical_alignment = 1
-
+[connection signal="pressed" from="Camera2D/Buttons/CardButton" to="." method="_on_card_button_pressed"]
+[connection signal="pressed" from="Camera2D/Buttons/MoveButton" to="." method="_on_move_button_pressed"]
 [connection signal="cardpressed" from="CardManager/Hand1" to="." method="_on_hand1_cardpressed"]
 [connection signal="cardpressed" from="CardManager/Hand2" to="." method="_on_hand2_cardpressed"]
 [connection signal="cardpressed" from="CardManager/Hand3" to="." method="_on_hand3_cardpressed"]
