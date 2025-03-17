@@ -4,12 +4,10 @@ extends Node2D
 @onready var player_layer: TileMapLayer = $PlayerLayer
 @onready var label: Label = $Camera2D/Label
 @onready var camera: Camera2D = $Camera2D
-@onready var buttons: Control = $Camera2D/Buttons
 
-@onready var card_manager: CardManager = $CardManager
-@onready var card_factory: CardFactory = $CardManager/CardFactory
-
-@onready var hands = [$CardManager/Hand1, $CardManager/Hand2, $CardManager/Hand3, $CardManager/Hand4]
+# @onready var card_manager: CardManager = $CardManager
+# @onready var card_factory: CardFactory = $CardManager/CardFactory
+# @onready var hands = [$CardManager/Hand1, $CardManager/Hand2, $CardManager/Hand3, $CardManager/Hand4]
 
 var rng = RandomNumberGenerator.new()
 
@@ -35,8 +33,6 @@ var rows = 20
 var click = [0, 0]
 signal clicked
 var clicking = false
-
-var can_move = false
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -94,12 +90,11 @@ func setupboard():
 	print("Glass coordinates: ", glass)
 	print("Dangerous coordinates: ", dangers)
 	
-	for i in hands.size():
-		for n in 3:
-			card_factory.create_card(card_rarity(), hands[i])
-		hands[i].position = Vector2(9999, 9999)
+	# for i in hands.size():
+		# for n in 3:
+			# card_factory.create_card(card_rarity(), hands[i])
+		# hands[i].position = Vector2(9999, 9999)
 	
-	buttons.visible = true
 	camera.position = Vector2(104, 24)
 	
 	gameloop()
@@ -108,26 +103,21 @@ func gameloop():
 	print("Starting game loop")
 	while game_over == false:
 		for i in range(4):
-			while true:
-				await wait_for_choice()
-				if can_move == true:
-					break
-			
 			if bunny_alive[i]:
 				camera.position = Vector2(104, bunny_coords[i][1] * 16 + 8)
 				match i:
 					0:
 						label.text = "First's turn"
-						hands[0].position = Vector2(0, 0)
+						# hands[0].position = Vector2(0, 0)
 					1:
 						label.text = "Second's turn"
-						hands[1].position = Vector2(0, 0)
+						# hands[1].position = Vector2(0, 0)
 					2:
 						label.text = "Third's turn"
-						hands[2].position = Vector2(0, 0)
+						# hands[2].position = Vector2(0, 0)
 					3:
 						label.text = "Fourth's turn"
-						hands[3].position = Vector2(0, 0)
+						# hands[3].position = Vector2(0, 0)
 				
 				while true:
 					await wait_for_click()
@@ -136,13 +126,29 @@ func gameloop():
 						break
 					print("Invalid move, try again")
 				
-				move_player(i)
+				player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
+				bunny_coords[i][0] = click[0]
+				bunny_coords[i][1] = click[1]
+				player_layer.set_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]), 0, Vector2i(i, 0))
+				print("Moved player ", i + 1, " to coordinates [", bunny_coords[i][0], ", ", bunny_coords[i][1], "]")
 				
-				can_move = false
-				# get_tree().process_frame
+				if bunny_coords[i] in dangers:
+					print(bunny_alive[i])
+					bunny_alive[i] = false
+					print(bunny_alive[i])
+					player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
+					glass_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
+					bunny_coords[i] = [-255, -255]
+					print("Player ", i + 1, " has perished!")
+				
+				for t in range(4):
+					if t != i:
+						player_layer.set_cell(Vector2i(bunny_coords[t][0], bunny_coords[t][1]), 0, Vector2i(t, 0))
 			
-			if i < 4:
-				hands[i].position = Vector2(9999, 9999)
+			# if i < 4:
+				# hands[i].position = Vector2(9999, 9999)
+		
+		print(bunny_alive[0], bunny_alive[1], bunny_alive[2], bunny_alive[3])
 		
 		if !bunny_alive[0] and !bunny_alive[1] and !bunny_alive[2] and !bunny_alive[3]:
 			game_over = true
@@ -153,11 +159,6 @@ func gameloop():
 
 func wait_for_click():
 	if clicking:
-		return
-	await clicked
-
-func wait_for_choice():
-	if can_move:
 		return
 	await clicked
 
@@ -173,74 +174,3 @@ func card_rarity():
 		if item <= cards[i]:
 			return i
 		item -= cards[i]
-
-func move_player(player):
-	
-	player_layer.erase_cell(Vector2i(bunny_coords[player][0], bunny_coords[player][1]))
-	bunny_coords[player][0] = click[0]
-	bunny_coords[player][1] = click[1]
-	player_layer.set_cell(Vector2i(bunny_coords[player][0], bunny_coords[player][1]), 0, Vector2i(player, 0))
-	print("Moved player ", player + 1, " to coordinates [", bunny_coords[player][0], ", ", bunny_coords[player][1], "]")
-	
-	if bunny_coords[player] in dangers:
-		print(bunny_alive[player])
-		bunny_alive[player] = false
-		print(bunny_alive[player])
-		player_layer.erase_cell(Vector2i(bunny_coords[player][0], bunny_coords[player][1]))
-		glass_layer.erase_cell(Vector2i(bunny_coords[player][0], bunny_coords[player][1]))
-		bunny_coords[player] = [-255, -255]
-		print("Player ", player + 1, " has perished!")
-	
-	for i in range(4):
-		if i != player:
-			player_layer.set_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]), 0, Vector2i(i, 0))
-
-func skipcard(hand):
-	while true:
-		await wait_for_click()
-		clicking = false
-		if click in glass and click[1] == bunny_coords[hand][1] + 4:
-			break
-		print("Invalid move, try again")
-	
-	move_player(hand)
-
-func _on_hand1_cardpressed(card: Card) -> void:
-	print("Clicked on ", card.card_name, " card on hand 1.")
-	match card.card_name:
-		"skip": skipcard(0)
-		"control": pass
-		"swap": pass
-		"steal": pass
-
-func _on_hand2_cardpressed(card: Card) -> void:
-	print("Clicked on ", card.card_name, " card on hand 2.")
-	match card.card_name:
-		"skip": skipcard(1)
-		"control": pass
-		"swap": pass
-		"steal": pass
-
-func _on_hand3_cardpressed(card: Card) -> void:
-	print("Clicked on ", card.card_name, " card on hand 3.")
-	match card.card_name:
-		"skip": skipcard(2)
-		"control": pass
-		"swap": pass
-		"steal": pass
-
-func _on_hand4_cardpressed(card: Card) -> void:
-	print("Clicked on ", card.card_name, " card on hand 4.")
-	match card.card_name:
-		"skip": skipcard(3)
-		"control": pass
-		"swap": pass
-		"steal": pass
-
-func _on_card_button_pressed() -> void:
-	print("Card Action Chosen")
-
-func _on_move_button_pressed() -> void:
-	print("Move Action Chosen")
-	can_move = true
-	buttons.visible = false
