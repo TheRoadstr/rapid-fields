@@ -17,12 +17,12 @@ var crazy_coords = [7, 1]
 var ribbit_coords = [9, 1]
 var bunny_coords = [mad_coords, homeless_coords, crazy_coords, ribbit_coords]
 
-var bunny_alive = [true, true, true, true]
+var bunny_alive = [3, 3, 3, 3]
 
 var cards = {"skip" : 350, "control" : 300, "swap" : 200, "steal" : 150}
 
 var game_over = false
-var difficulty = 0
+var difficulty = 1
 
 var glass = []
 var dangers = []
@@ -134,7 +134,7 @@ func gameloop():
 				
 				if bunny_coords[i] in dangers:
 					print(bunny_alive[i])
-					bunny_alive[i] = false
+					bunny_alive[i] -= 1
 					print(bunny_alive[i])
 					player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
 					glass_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
