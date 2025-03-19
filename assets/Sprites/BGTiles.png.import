@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ct3rwtj7te571"
-path="res://.godot/imported/BGTiles.jpg-95d592a478352001ad0673f658101b1a.ctex"
+uid="uid://d1auvn4xitr6x"
+path="res://.godot/imported/BGTiles.png-e0e6ea143ffa2e1451c44aa382b4b292.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Sprites/BGTiles.jpg"
-dest_files=["res://.godot/imported/BGTiles.jpg-95d592a478352001ad0673f658101b1a.ctex"]
+source_file="res://assets/Sprites/BGTiles.png"
+dest_files=["res://.godot/imported/BGTiles.png-e0e6ea143ffa2e1451c44aa382b4b292.ctex"]
 
 [params]
 

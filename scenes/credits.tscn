@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=4 uid="uid://d2n6wkro3eja6"]
 
-[ext_resource type="Texture2D" uid="uid://ct3rwtj7te571" path="res://assets/Sprites/BGTiles.jpg" id="1_0bpdh"]
 [ext_resource type="Script" uid="uid://b75t1p8chlidh" path="res://scripts/credits.gd" id="1_2ckv8"]
+[ext_resource type="Texture2D" uid="uid://d1auvn4xitr6x" path="res://assets/Sprites/BGTiles.png" id="2_2ckv8"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2ckv8"]
-texture = ExtResource("1_0bpdh")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ctdu"]
+texture = ExtResource("2_2ckv8")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -17,9 +17,10 @@ texture = ExtResource("1_0bpdh")
 1:2/0 = 0
 2:2/0 = 0
 3:2/0 = 0
+0:3/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_0ctdu"]
-sources/0 = SubResource("TileSetAtlasSource_2ckv8")
+sources/0 = SubResource("TileSetAtlasSource_0ctdu")
 
 [node name="Credits" type="Control"]
 layout_mode = 3
