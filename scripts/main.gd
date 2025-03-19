@@ -34,6 +34,10 @@ var click = [0, 0]
 signal clicked
 var clicking = false
 
+@onready var life_1: AnimatedSprite2D = $Camera2D/Control/Life1
+@onready var life_2: AnimatedSprite2D = $Camera2D/Control/Life2
+@onready var life_3: AnimatedSprite2D = $Camera2D/Control/Life3
+
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var playerposition = get_global_mouse_position()
@@ -78,7 +82,7 @@ func setupboard():
 				3: column = 4 + (t * 2)
 				4: column = 3 + (t * 2)
 			row = 3 + (i * 2)
-			glass_layer.set_cell(Vector2i(column, row), 0, Vector2i(0, 0))
+			glass_layer.set_cell(Vector2i(column, row), 1, Vector2i(1, 0))
 			glass.append([column, row])
 		
 		danger = rng.randi_range(1, cols)
@@ -86,6 +90,9 @@ func setupboard():
 			2: dangers.append([3 + (danger * 2), 3 + (i * 2)])
 			3: dangers.append([2 + (danger * 2), 3 + (i * 2)])
 			4: dangers.append([1 + (danger * 2), 3 + (i * 2)])
+	
+	glass_layer.set_cell(Vector2i(6, 43), 1, Vector2i(1, 0))
+	glass.append([6, 43])
 	
 	print("Glass coordinates: ", glass)
 	print("Dangerous coordinates: ", dangers)
@@ -119,6 +126,8 @@ func gameloop():
 						label.text = "Fourth's turn"
 						# hands[3].position = Vector2(0, 0)
 				
+				bunny_lives(bunny_alive[i])
+				
 				while true:
 					await wait_for_click()
 					clicking = false
@@ -135,11 +144,19 @@ func gameloop():
 				if bunny_coords[i] in dangers:
 					print(bunny_alive[i])
 					bunny_alive[i] -= 1
-					print(bunny_alive[i])
-					player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
-					glass_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
-					bunny_coords[i] = [-255, -255]
-					print("Player ", i + 1, " has perished!")
+					print(bunny_alive[i], " lives left")
+					glass_layer.set_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]), 1, Vector2i(0, 0))
+					bunny_lives(bunny_alive[i])
+					
+					if bunny_alive[i] <= 0:
+						player_layer.erase_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]))
+						bunny_coords[i] = [-255, -255]
+						print("Player ", i + 1, " has perished!")
+					
+					await get_tree().create_timer(0.5).timeout
+				
+				if bunny_coords[i] == [6, 43]:
+					winning(i)
 				
 				for t in range(4):
 					if t != i:
@@ -154,6 +171,7 @@ func gameloop():
 			game_over = true
 			print("Game has ended")
 	
+	await get_tree().create_timer(1).timeout
 	print("Going to main menu")
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
@@ -174,3 +192,26 @@ func card_rarity():
 		if item <= cards[i]:
 			return i
 		item -= cards[i]
+
+func bunny_lives(index):
+	if index == 3:
+		life_1.frame = 0
+		life_2.frame = 0
+		life_3.frame = 0
+	elif index == 2:
+		life_1.frame = 0
+		life_2.frame = 0
+		life_3.frame = 1
+	elif index == 1:
+		life_1.frame = 0
+		life_2.frame = 1
+		life_3.frame = 1
+	else:
+		life_1.frame = 1
+		life_2.frame = 1
+		life_3.frame = 1
+
+func winning(player):
+	print(player)
+	Global.winner = player
+	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
