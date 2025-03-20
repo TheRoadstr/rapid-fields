@@ -4,6 +4,7 @@ extends Node2D
 @onready var player_layer: TileMapLayer = $PlayerLayer
 @onready var label: Label = $Camera2D/Label
 @onready var camera: Camera2D = $Camera2D
+@onready var audio: AudioStreamPlayer = $AudioStreamPlayer
 
 # @onready var card_manager: CardManager = $CardManager
 # @onready var card_factory: CardFactory = $CardManager/CardFactory
@@ -140,6 +141,7 @@ func gameloop():
 				bunny_coords[i][1] = click[1]
 				player_layer.set_cell(Vector2i(bunny_coords[i][0], bunny_coords[i][1]), 0, Vector2i(i, 0))
 				print("Moved player ", i + 1, " to coordinates [", bunny_coords[i][0], ", ", bunny_coords[i][1], "]")
+				audio.play()
 				
 				if bunny_coords[i] in dangers:
 					print(bunny_alive[i])

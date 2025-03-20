@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://c1w4mx7u786u2"]
+[gd_scene load_steps=23 format=4 uid="uid://c1w4mx7u786u2"]
 
 [ext_resource type="Script" uid="uid://0c57po4ydp4a" path="res://scripts/main.gd" id="1_gtk27"]
 [ext_resource type="PackedScene" uid="uid://c7u8hryloq7hy" path="res://addons/card-framework/card_manager.tscn" id="2_jyhfs"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://d1auvn4xitr6x" path="res://assets/Sprites/BGTiles.png" id="5_85g3d"]
 [ext_resource type="FontFile" uid="uid://bq70g437lv2uk" path="res://assets/Fonts/PixelOperator8-Bold.ttf" id="8_tipki"]
 [ext_resource type="Texture2D" uid="uid://cioet3pyarmfc" path="res://assets/Sprites/HeartsSheet.png" id="9_85g3d"]
+[ext_resource type="AudioStream" uid="uid://dl0sn5ppbeidq" path="res://assets/Sounds/Leaves.MP3" id="10_choun"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_85g3d"]
 texture = ExtResource("2_tipki")
@@ -203,3 +204,7 @@ z_index = 4
 position = Vector2(35, 85)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_eb6dy")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_choun")
+volume_db = 8.0

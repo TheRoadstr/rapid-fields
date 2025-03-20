@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=4 uid="uid://bbwp1butegmxk"]
+[gd_scene load_steps=17 format=4 uid="uid://bbwp1butegmxk"]
 
 [ext_resource type="Script" uid="uid://mexrpa3618sx" path="res://scripts/game_over.gd" id="1_racf3"]
 [ext_resource type="Texture2D" uid="uid://d1auvn4xitr6x" path="res://assets/Sprites/BGTiles.png" id="2_racf3"]
 [ext_resource type="FontFile" uid="uid://bq70g437lv2uk" path="res://assets/Fonts/PixelOperator8-Bold.ttf" id="2_tbwuq"]
 [ext_resource type="Texture2D" uid="uid://dpy4wu8g6bugt" path="res://assets/Sprites/players.png" id="3_racf3"]
+[ext_resource type="AudioStream" uid="uid://80q77pv0r4pa" path="res://assets/Sounds/Celebration.MP3" id="5_7m3ot"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wqhvx"]
 texture = ExtResource("2_racf3")
@@ -23,6 +24,34 @@ texture = ExtResource("2_racf3")
 
 [sub_resource type="TileSet" id="TileSet_tbwuq"]
 sources/0 = SubResource("TileSetAtlasSource_wqhvx")
+
+[sub_resource type="Gradient" id="Gradient_7m3ot"]
+offsets = PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 0.498039, 0, 1, 1, 1, 0, 1, 0.498039, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0.498039, 1, 0, 1, 1, 1, 0, 0.498039, 1, 1, 0.498039, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_v3hpu"]
+gradient = SubResource("Gradient_7m3ot")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7m3ot"]
+particle_flag_disable_z = true
+direction = Vector3(1, -1, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 750, 0)
+scale_min = 2.0
+scale_max = 10.0
+color_initial_ramp = SubResource("GradientTexture1D_v3hpu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_v3hpu"]
+particle_flag_disable_z = true
+direction = Vector3(-1, -1, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 750, 0)
+scale_min = 2.0
+scale_max = 10.0
+color_initial_ramp = SubResource("GradientTexture1D_v3hpu")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7m3ot"]
 atlas = ExtResource("3_racf3")
@@ -77,6 +106,35 @@ tile_set = SubResource("TileSet_tbwuq")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 324)
 
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Camera2D"]
+offset_left = -576.0
+offset_top = -323.0
+offset_right = -536.0
+offset_bottom = -283.0
+scale = Vector2(28.8, 16.19)
+
+[node name="LeftParticles" type="GPUParticles2D" parent="Camera2D/AspectRatioContainer"]
+z_index = 1
+position = Vector2(0.173613, 39.6541)
+scale = Vector2(0.173611, 0.308833)
+emitting = false
+amount = 100
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_7m3ot")
+
+[node name="RightParticles" type="GPUParticles2D" parent="Camera2D/AspectRatioContainer"]
+z_index = 1
+position = Vector2(39.8264, 39.6541)
+scale = Vector2(0.173611, 0.308833)
+emitting = false
+amount = 100
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_v3hpu")
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
 offset_left = 324.0
@@ -103,5 +161,9 @@ offset_bottom = 567.0
 theme_override_fonts/font = ExtResource("2_tbwuq")
 theme_override_font_sizes/font_size = 32
 text = "Return"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_7m3ot")
+autoplay = true
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
