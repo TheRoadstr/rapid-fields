@@ -36,9 +36,9 @@ script = ExtResource("1_l6cm7")
 z_index = 1
 layout_mode = 2
 offset_left = 425.0
-offset_top = 84.0
+offset_top = 38.0
 offset_right = 727.0
-offset_bottom = 524.0
+offset_bottom = 616.0
 theme_override_constants/separation = 16
 alignment = 1
 
@@ -74,6 +74,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Credits"
 
+[node name="Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Options"
+
 [node name="Quit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
@@ -89,4 +94,5 @@ tile_set = SubResource("TileSet_wu84c")
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

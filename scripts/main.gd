@@ -23,7 +23,7 @@ var bunny_alive = [3, 3, 3, 3]
 var cards = {"skip" : 350, "control" : 300, "swap" : 200, "steal" : 150}
 
 var game_over = false
-var difficulty = 1
+var difficulty = Global.difficulty
 
 var glass = []
 var dangers = []
